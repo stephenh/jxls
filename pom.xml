@@ -88,6 +88,18 @@
 		</dependency>
 	</dependencies>      
   </dependencyManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/release.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <!--<build>-->
     <!--<defaultGoal>jar</defaultGoal>-->
     <!--<directory>build</directory>-->
