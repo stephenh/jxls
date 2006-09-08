@@ -1,0 +1,35 @@
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>net.sf.jxls</groupId>
+    <artifactId>jxls</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sf.jxls</groupId>
+  <artifactId>jxls-examples</artifactId>
+  <packaging>jar</packaging>
+  <name>jxls-examples</name>
+  <url>http://jxls.sf.net</url>
+  <description>
+    jXLS Examples demonstrate usage of jXLS library
+  </description>
+    <scm>
+        <connection>scm:cvs:pserver:anonymous@jxls.cvs.sourceforge.net:/cvsroot/jxls:jxls-examples</connection>
+        <developerConnection>scm:cvs:ext:lvysochyn@jxls.cvs.sourceforge.net:/cvsroot/jxls:jxls-examples</developerConnection>
+        <url>http://cvs.sourceforge.net/viewcvs.py/jxls</url>
+    </scm>
+    <dependencies>
+	<dependency>
+	<groupId>net.sf.jxls</groupId>
+	<artifactId>jxls-core</artifactId>
+	</dependency>
+        <dependency>
+          <groupId>hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+          <version>1.8.0.4</version>
+        </dependency>
+    </dependencies>
+</project>

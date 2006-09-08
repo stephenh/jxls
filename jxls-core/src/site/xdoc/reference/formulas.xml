@@ -1,0 +1,314 @@
+<document>
+    <properties>
+      <author email="leonid.vysochyn@gmail.com">Leonid Vysochyn</author>
+      <title>Formulas Notation</title>
+    </properties>
+    <body>
+        <section name="Overview" id="overview">
+            <p>This section demonstrates how to apply different formulas to your exported data. First any static Excel formulas (which are supported by
+                <a href="http://jakarta.apache.org/poi/">POI</a>) will be copied  to result Excel file untouched.
+			 But if you want to apply formula to dynamic data like exported collections you have to use predefined notation.
+			Any cell with value starting with
+                <strong>
+                    <code>$[</code>
+                </strong> and ending with
+                <strong>
+                    <code>]</code>
+                </strong> will be rendered as a formula cell. For example
+            </p>
+            <source>
+				$[formula]
+            </source>
+            <p>where
+                <code>formula</code> is the real formula which will be processed by jXLS engine.
+            </p>
+        </section>
+        <section id="formulaCellReference" name="Formula Cell References notation.">
+            <p>When you reference a worksheet cell in a jXLS formula and that cell is transformed into some other cell or
+               a set of cells the cell reference in the formula will be updated accordingly.
+                For example if you have a formula like
+            </p>
+            <source>
+            		       	$[E5 + B4 * 5]
+            </source>
+            <p>
+                And after jXLS transformation cell E5 turns to E20 and cell B4 turns to cell B15 the result formula will look like
+            </p>
+            <source>
+            			E20 + B15 * 5
+            </source>
+            <p>Let's consider more complex sample where a source cell was duplicated and turned into several cells forming a cell range.
+            For example if we have a formula like </p>
+            <source>
+                $[SUM(C2)]
+            </source>
+            <p>and cell C2 turns into a set of cells C2, C3, C4, C5, C6. This can happen for example if cell C2 is contained in jx:forEach tag body.
+            In this case jXLS detects that result cells form a range C2:C6 and replaces the original cell reference with this range </p>
+            <source>
+                SUM(C2:C6)
+            </source>
+            <p>jXLS also detects column ranges like A5:E5 when result cells are A5, B5, C5, D5, E5.</p>
+            <p>If result cells do not form any cell range original cell will be replaced with list of all cells separated with commas. If in previous
+            example cell C2 is transformed into cells C2, C3, C4, C10, C11, C20 result formula will look like</p>
+            <source>
+                SUM(C2,C3,C4,C10,C11,C20)
+            </source>
+            <p>Also you can reference cells from different worksheets in a formula cell. For example you can have following formula
+            referencing cells from other worksheets</p>
+            <source>
+                $[SUM(Sheet2!B10) - 'Sheet 1'!D15]
+            </source>
+            <p>jXLS updates formula cell references throughout the workbook during excel template transformation. It means
+            for example that any transformation that changes cell original location will reflect new cell location
+            in all affected formulas. If we have <code>jx:forEach</code> tag like this</p>
+            <source>
+                &lt;jx:forEach items="${employees}" var="employee">
+                ${employee.name} | ${employee.payment}
+                &lt;jx:forEach>
+            </source>
+            <p>And assuming that before transformation ${employee.payment} was located in a cell <code>B5</code> and after transformation
+            we have employee payments in all cells from <code>B5</code> to <code>B10</code> then if any other cell references
+            original cell <code>B5</code> like for example <code>$[SUM(B5)]</code> then all such formulas will be updated.
+                In this case we will get a formula like <code>SUM(B5:B10)</code>.
+           </p>
+        </section>
+        <section id="collectionSummaryFormulas" name="Collection Summary formulas">
+            <warning>This section applies only for collections exported without jx:forEach tag. If you use jx:forEach
+            tag to export collections (recommended way) you may reference cell references directly as described in a previous section.</warning>
+            <p>Collection summary formulas are applied to exported collection properties. For example we may want to summarize payments of all employees.
+			But as we don't know the size of collection when we create XLS template we have to use special notation to indicate the result row range that should be used in formula cell. 
+			To set correct source data range for some collection property you have to put this collection property in
+                <strong>@</strong> symbols.
+			For example if
+                <code>employees</code> is the name of exported collection then we can summarize
+                <code>payment</code> property of all employees with the following syntax
+            </p>
+            <source>
+            		       	$[SUM(@employees.payment@)]
+            </source>
+            <p>
+                <code>@employees.payment@</code> will be rendered as cell range for the
+                <code>payment</code> property of all employees. So in result XLS we will get cell formula value similar to following
+            </p>
+            <source>
+            			SUM(C10:C17)
+            </source>
+            <p>In the most cases collection summary formulas can be replaced with <code>Formula Cell References Notation</code> described in previous section.</p>
+        </section>
+        <section id="rowFormulaCells" name="Row Formulas">
+            <p>Row formulas are applied to every collection item. For example we may want to add additional column to the exported collection that is calculated from other columns in the same row. Let's assume we have properties
+                <code>payment</code> (column
+                <strong>C</strong>)	and
+                <code>bonus</code> (as percentage value in column
+                <strong>D</strong>) for each employee. Then we can calculate total payment for each employee as (1 + bonus)*payment. For every list item we should use payment and bonus for corresponding row.
+In the earlier versions of jXLS it could be only achieved with symbol
+                <strong>#</strong> appended to the column name. For example
+            </p>
+            <source>
+			$[(1+D#)*C#]
+            </source>
+            <p>will be rendered to the real formula for each collection row like</p>
+            <source>
+				=(1+D10)*C10
+				=(1+D11)*C11
+				=(1+D12)*C12
+				...
+            </source>
+            <p>Here we assumed that employees collection started from row 10.</p>
+            <p>Starting from version 0.8.8 you may also use direct cell references like</p>
+            <source>
+			$[(1+D10)*C10]
+            </source>
+            <p>They will be updated for each new collection row like </p>
+            <source>
+				=(1+D10)*C10
+				=(1+D11)*C11
+				=(1+D12)*C12
+				...
+            </source>
+        </section>
+        <!--<section id="namedFormulaCells" name="Named Formula Cells">-->
+            <!--<p>Any formula cell may  have a name by which this formula cell may be referenced from other formula cell</p>-->
+            <!--<section id="summaryFormulaCellNames" name="Summary formula cell name">-->
+                <!--<p>You can assign a name to any summary formula cell. This can be done by adding cell name after the right bracket-->
+                    <!--<strong>-->
+                        <!--<code>]</code>-->
+                    <!--</strong>-->
+	            <!--For example cell value in XLS template like-->
+                <!--</p>-->
+                <!--<source>-->
+	            		       	<!--$[SUM(A1:A20)]sum-->
+                <!--</source>-->
+                <!--<p>assigns name-->
+                    <!--<code>sum</code> to the address of this cell. Such cell can be referenced later in some other formula cell by putting its name between-->
+                    <!--<strong>@</strong> symbols. For example-->
+                <!--</p>-->
+                <!--<source>-->
+	            			<!--$[B1 + @sum@]sum2-->
+                <!--</source>-->
+                <!--<p>As you see this cell also may be referenced in some other formula using-->
+                        <!--<code>sum2</code>-->
+                     <!--name.-->
+                <!--</p>-->
+            <!--</section>-->
+            <!--<section id="rowFormulaCellNames" name="Row formula cell name">-->
+                <!--<p>You may need to reference row formula cells in some summary formula. The name of row formula cell will be translated to corresponding cell range if formula is referenced later with its name in-->
+                    <!--<strong>@</strong> symbols. For example if we have a template like-->
+                <!--</p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<th/>-->
+                        <!--<th>A</th>-->
+                        <!--<th>B</th>-->
+                        <!--<th>C</th>-->
+                        <!--<th>D</th>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>1</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Employee Name</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Payment</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Bonus</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Total</strong>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>2</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+						<!--${employees.name}-->
+                        <!--</td>-->
+                        <!--<td>-->
+						<!--${employees.payment}-->
+                        <!--</td>-->
+                        <!--<td>-->
+						<!--${employees.bonus}-->
+                        <!--</td>-->
+                        <!--<td>-->
+						<!--$[(1 + C#)*B#]emplTotal-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>3</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Total</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+<!---->
+                        <!--</td>-->
+                        <!--<td>-->
+<!---->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>$[SUM(@emplTotal@)]</strong>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+                <!--<p>We'll get an output like </p>-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<th/>-->
+                        <!--<th>A</th>-->
+                        <!--<th>B</th>-->
+                        <!--<th>C</th>-->
+                        <!--<th>D</th>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>1</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Employee Name</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Payment</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Bonus</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Total</strong>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>2</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--Oleg-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--2000.0-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--20%-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--=(1 + C2)*B2-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>3</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--John-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--2000.0-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--10%-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--=(1 + C3)*B3-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>4</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--Ian-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--1500.0-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--10%-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--=(1 + C4)*B4-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<strong>5</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<strong>Total</strong>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--</td>-->
+                        <!--<td>-->
+							<!--=SUM(D2:D4)-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</section>-->
+        <!--</section>-->
+    </body>
+</document>
