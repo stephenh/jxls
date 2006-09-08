@@ -1,16 +1,15 @@
 package net.sf.jxls.tag;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import net.sf.jxls.util.TagBodyHelper;
-import net.sf.jxls.tag.BaseTag;
-import net.sf.jxls.parser.Expression;
-import net.sf.jxls.parser.ExpressionParser;
 import net.sf.jxls.controller.SheetTransformationController;
 import net.sf.jxls.controller.SheetTransformationControllerImpl;
 import net.sf.jxls.exception.ParsePropertyException;
+import net.sf.jxls.parser.Expression;
+import net.sf.jxls.parser.ExpressionParser;
 import net.sf.jxls.transformation.ResultTransformation;
 import net.sf.jxls.transformer.SheetTransformer;
+import net.sf.jxls.util.TagBodyHelper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
 
@@ -53,7 +52,9 @@ public class IfTag extends BaseTag {
 
 
     public ResultTransformation process(SheetTransformer sheetTransformer) {
-        log.info("if tag processing. Parameters: test=" + test);
+        if( log.isDebugEnabled() ){
+            log.debug("if tag processing. Parameters: test=" + test);
+        }
 
         Block body = tagContext.getTagBody();
         if( body.getNumberOfRows()==1 ){

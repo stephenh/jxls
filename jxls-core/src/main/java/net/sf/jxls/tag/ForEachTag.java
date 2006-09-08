@@ -138,9 +138,11 @@ public class ForEachTag extends BaseTag {
 
 
     public ResultTransformation process(SheetTransformer sheetTransformer) {
-        log.debug("forEach tag processing. Attributes: var = " + var + ", items=" + items);
-        log.debug("Current tagContext: " + tagContext);
-        log.debug("Items Collection: " + itemsCollection);
+        if( log.isDebugEnabled() ){
+            log.debug("forEach tag processing. Attributes: var = " + var + ", items=" + items);
+            log.debug("Current tagContext: " + tagContext);
+            log.debug("Items Collection: " + itemsCollection);
+        }
         Block body = tagContext.getTagBody();
         if( body.getNumberOfRows()==1 ){
             return processOneRowTag(sheetTransformer);

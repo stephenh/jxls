@@ -30,7 +30,9 @@ public class OutlineTag extends BaseTag{
     }
 
     public ResultTransformation process(SheetTransformer sheetTransformer) {
-        log.info("jx:outline tag processing..");
+        if( log.isDebugEnabled() ){
+            log.info("jx:outline tag processing..");
+        }
 
         Block body = tagContext.getTagBody();
         if( body.getNumberOfRows()==1 ){
