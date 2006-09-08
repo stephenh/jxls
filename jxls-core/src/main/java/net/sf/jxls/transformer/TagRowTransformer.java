@@ -32,13 +32,8 @@ public class TagRowTransformer extends BaseRowTransformer {
     }
 
     public ResultTransformation transform(SheetTransformationController stc, SheetTransformer sheetTransformer, Map beans) {
-        log.info("transforming tag: " + tag);
-        Block body = tag.getTagContext().getTagBody();
         tag.getTagContext().setSheetTransformationController( stc );
-//        int shiftNumber = body.getNumberOfRows() - 1;
         resultTransformation = tag.process( sheetTransformer );
-//        int SHIFT = resultTransformation.getNextRowShift();
-
         return resultTransformation;
     }
 
