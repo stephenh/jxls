@@ -38,7 +38,7 @@
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
-                <phase>compile</phase>
+                <phase>site</phase>
                 <configuration>
                   <tasks>
                       <java classname="net.sf.jxls.sample.SimpleExport">
