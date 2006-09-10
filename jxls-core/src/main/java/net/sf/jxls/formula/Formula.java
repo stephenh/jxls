@@ -23,9 +23,12 @@ public class Formula {
     private Integer cellNum;
     static final String inlineFormulaToken = "#";
     static final String formulaListRangeToken = "@";
-    private String adjustedFormula;
 
     private Sheet sheet;
+
+    private Set cellRefs = new HashSet();
+
+    private List formulaParts = new ArrayList();
 
     public Sheet getSheet() {
         return sheet;
@@ -37,9 +40,25 @@ public class Formula {
 
     public Formula(String formula) {
         this.formula = formula;
+        parseFormula();
     }
 
     public Formula() {
+    }
+
+    public Formula(Formula f){
+        this.formula = f.formula;
+        this.sheet = f.getSheet();
+        for (int i = 0; i < f.formulaParts.size(); i++) {
+            Object formulaPart = f.formulaParts.get(i);
+            if( formulaPart instanceof String ){
+                formulaParts.add(formulaPart.toString());
+            }else if(formulaPart instanceof CellRef){
+                CellRef cellRef = new CellRef( formulaPart.toString(), this );
+                formulaParts.add( cellRef );
+                cellRefs.add( cellRef );
+            }
+        }
     }
 
     public String getFormula() {
@@ -64,6 +83,14 @@ public class Formula {
 
     public void setCellNum(Integer cellNum) {
         this.cellNum = cellNum;
+    }
+
+    public Set getCellRefs() {
+        return cellRefs;
+    }
+
+    public List getFormulaParts() {
+        return formulaParts;
     }
 
     public boolean isInline() {
@@ -127,6 +154,16 @@ public class Formula {
     private static final String regexCellRef = "([a-zA-Z]+[a-zA-Z0-9]*![a-zA-Z]+[0-9]+|[a-zA-Z]+[0-9]+|'[^?\\\\/:'*]+'![a-zA-Z]+[0-9]+)";
     private static final Pattern regexCellRefPattern = Pattern.compile( regexCellRef );
 
+    public String getActualFormula(){
+        Object formulaPart;
+        String actualFormula = "";
+        for (Iterator iterator = formulaParts.iterator(); iterator.hasNext();) {
+            formulaPart =  iterator.next();
+            actualFormula += formulaPart.toString();
+        }
+        return actualFormula;
+    }
+
     public Set findRefCells() {
         Set refCells = new HashSet();
         Matcher refCellMatcher = regexCellRefPattern.matcher( formula );
@@ -136,6 +173,21 @@ public class Formula {
         return refCells;
     }
 
+    public void parseFormula(){
+        formulaParts.clear();
+        cellRefs.clear();
+        Matcher refCellMatcher = regexCellRefPattern.matcher( formula );
+        int end = 0;
+        CellRef cellRef;
+        while( refCellMatcher.find() ){
+            formulaParts.add( formula.substring( end, refCellMatcher.start() ) );
+            cellRef = new CellRef( refCellMatcher.group(), this );
+            formulaParts.add( cellRef );
+            cellRefs.add( cellRef );
+            end = refCellMatcher.end();
+        }
+        formulaParts.add( formula.substring( end ));
+    }
 
     public String toString() {
         return "Formula{" +
@@ -149,4 +201,44 @@ public class Formula {
         return formula.indexOf( formulaListRangeToken ) >= 0;
     }
 
+    public void replaceCellRef(CellRef cellRef, List rangeFormulaParts) {
+        for (int i = 0; i < formulaParts.size(); i++) {
+            Object formulaPart = formulaParts.get(i);
+            if( formulaPart == cellRef ){
+                replaceFormulaPart( i, rangeFormulaParts );
+                replaceCellRefs( cellRef, rangeFormulaParts );
+                break;
+            }
+        }
+    }
+
+    private void replaceCellRefs(CellRef cellRef, List rangeFormulaParts) {
+        cellRefsToRemove.add( cellRef );
+        for (int i = 0; i < rangeFormulaParts.size(); i++) {
+            Object formulaPart = rangeFormulaParts.get(i);
+            if( formulaPart instanceof CellRef ){
+                cellRefsToAdd.add( formulaPart );
+            }
+        }
+    }
+
+    List cellRefsToRemove = new ArrayList();
+    List cellRefsToAdd = new ArrayList();
+    public void updateReplacedRefCellsCollection(){
+        for (int i = 0; i < cellRefsToRemove.size(); i++) {
+            CellRef cellRef = (CellRef) cellRefsToRemove.get(i);
+            cellRefs.remove( cellRef );
+        }
+        cellRefsToRemove.clear();
+        for (int i = 0; i < cellRefsToAdd.size(); i++) {
+            Object cellRef = cellRefsToAdd.get(i);
+            cellRefs.add( cellRef );
+        }
+        cellRefsToAdd.clear();
+    }
+
+    private void replaceFormulaPart(int pos, List rangeFormulaParts) {
+        formulaParts.remove( pos );
+        formulaParts.addAll( pos, rangeFormulaParts );
+    }
 }

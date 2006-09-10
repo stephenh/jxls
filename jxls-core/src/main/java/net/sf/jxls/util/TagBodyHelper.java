@@ -53,12 +53,12 @@ public class TagBodyHelper {
                         Util.copyRow( sheet, row, newRow );
                     }
                 }
-                for (Iterator iterator = formulaCellsToUpdate.keySet().iterator(); iterator.hasNext();) {
-                    Point point = (Point) iterator.next();
-                    int rowNumToUpdate = block.getEndRowNum() + block.getNumberOfRows() * i + 1 + point.getRow() - block.getStartRowNum();
-                    int colNumToUpdate = point.getCol();
-                    updateFormula( sheet, block.getNumberOfRows() * (i + 1), rowNumToUpdate, colNumToUpdate, (List) formulaCellsToUpdate.get(point) );
-                }
+//                for (Iterator iterator = formulaCellsToUpdate.keySet().iterator(); iterator.hasNext();) {
+//                    Point point = (Point) iterator.next();
+//                    int rowNumToUpdate = block.getEndRowNum() + block.getNumberOfRows() * i + 1 + point.getRow() - block.getStartRowNum();
+//                    int colNumToUpdate = point.getCol();
+//                    updateFormula( sheet, block.getNumberOfRows() * (i + 1), rowNumToUpdate, colNumToUpdate, (List) formulaCellsToUpdate.get(point) );
+//                }
             }
             return block.getNumberOfRows() * n;
         }else{

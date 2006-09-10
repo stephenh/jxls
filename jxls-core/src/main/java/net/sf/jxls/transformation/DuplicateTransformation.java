@@ -21,7 +21,7 @@ public class DuplicateTransformation extends BlockTransformation {
     }
 
     public Block getBlockAfterTransformation() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public List transformCell(Point p) {
@@ -29,6 +29,7 @@ public class DuplicateTransformation extends BlockTransformation {
         if( block.contains( p ) ){
             cells = new ArrayList();
             Point rp = p;
+            cells.add( p );
             for( int i = 0; i < duplicateNumber; i++){
                 cells.add( rp = rp.shift( block.getNumberOfRows(), 0));
             }
@@ -37,6 +38,23 @@ public class DuplicateTransformation extends BlockTransformation {
             cells.add( p );
         }
         return cells;
+    }
+
+    public String getDuplicatedCellRef(String sheetName, String cell, int duplicateBlock){
+        CellReference cellRef = new CellReference(cell);
+        int rowNum = cellRef.getRow();
+        short colNum = cellRef.getCol();
+        String refSheetName = cellRef.getSheetName();
+        String resultCellRef = cell;
+        if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
+            // sheet check passed
+            Point p = new Point( rowNum, colNum );
+            if( block.contains( p ) && duplicateNumber >= 1 && duplicateNumber >= duplicateBlock){
+                p = p.shift( block.getNumberOfRows() * duplicateBlock, 0 );
+                resultCellRef = p.toString( refSheetName );
+            }
+        }
+        return resultCellRef;
     }
 
     public List transformCell(String sheetName, String cell) {
@@ -48,7 +66,7 @@ public class DuplicateTransformation extends BlockTransformation {
         if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
             // sheet check passed
             Point p = new Point( rowNum, colNum );
-            if( block.contains( p ) && duplicateNumber >= 1){
+            if( block.contains( p ) /*&& duplicateNumber >= 1*/){
                 cells.add( p.toString(refSheetName) );
                 for( int i = 0; i < duplicateNumber; i++){
                     p = p.shift( block.getNumberOfRows(), 0);

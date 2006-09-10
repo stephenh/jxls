@@ -34,7 +34,8 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
     public SheetTransformationControllerImpl(Sheet sheet) {
         this.sheet = sheet;
         helper = new TagBodyHelper();
-        formulaController = new FormulaControllerImpl( sheet.getWorkbook() );
+        formulaController = sheet.getWorkbook().getFormulaController();
+//        formulaController = new FormulaControllerImpl( sheet.getWorkbook() );
     }
 
     public int duplicateDown( Block block, int n ){
@@ -46,10 +47,9 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
             }
             DuplicateTransformation duplicateTransformation = new DuplicateTransformation(block, n);
             transformations.add( duplicateTransformation );
-            Map formulaRefCellUpdates = findFormulaRefCellsToUpdate(block);
-            formulaController.updateFormulas( shiftTransformation );
-            formulaController.updateFormulas( duplicateTransformation );
-            return TagBodyHelper.duplicateDown( sheet.getHssfSheet(), block, n, formulaRefCellUpdates );
+            formulaController.updateWorkbookFormulas( shiftTransformation );
+            formulaController.updateWorkbookFormulas( duplicateTransformation );
+            return TagBodyHelper.duplicateDown( sheet.getHssfSheet(), block, n );
         }else{
             return 0;
         }
@@ -95,8 +95,8 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
         transformations.add( new RemoveTransformation( new Block(sheet, block.getEndRowNum() - 1, block.getEndRowNum() - 1 ) ));
         ShiftTransformation shiftTransformation2 = new ShiftTransformation(new Block(sheet, block.getEndRowNum(), Integer.MAX_VALUE), -1, 0);
         transformations.add( shiftTransformation2 );
-        formulaController.updateFormulas( shiftTransformation1 );
-        formulaController.updateFormulas( shiftTransformation2 );
+        formulaController.updateWorkbookFormulas( shiftTransformation1 );
+        formulaController.updateWorkbookFormulas( shiftTransformation2 );
         TagBodyHelper.removeBorders( sheet.getHssfSheet(), block );
 
     }
@@ -113,7 +113,7 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
         transformations.add( new RemoveTransformation( block ) );
         ShiftTransformation shiftTransformation = new ShiftTransformation(new Block(sheet, block.getEndRowNum() + 1, Integer.MAX_VALUE), -block.getNumberOfRows(), 0);
         transformations.add( shiftTransformation );
-        formulaController.updateFormulas( shiftTransformation );
+        formulaController.updateWorkbookFormulas( shiftTransformation );
         TagBodyHelper.removeBodyRows( sheet.getHssfSheet(), block );
     }
 
@@ -121,18 +121,23 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
     public void duplicateRow(RowCollection rowCollection) {
         int startRowNum = rowCollection.getParentRow().getHssfRow().getRowNum();
         int endRowNum = startRowNum + rowCollection.getDependentRowNumber();
-        ShiftTransformation shiftTransformation = new ShiftTransformation(new Block(sheet, endRowNum + 1, Integer.MAX_VALUE), rowCollection.getCollectionProperty().getCollection().size() - 1, 0);
+
+        Block shiftBlock = new Block(sheet, endRowNum + 1, Integer.MAX_VALUE);
+        ShiftTransformation shiftTransformation = new ShiftTransformation(shiftBlock, rowCollection.getCollectionProperty().getCollection().size() - 1, 0);
         transformations.add( shiftTransformation);
-        DuplicateTransformation duplicateTransformation = new DuplicateTransformation(new Block(sheet, startRowNum, endRowNum), rowCollection.getCollectionProperty().getCollection().size()-1);
+        Block duplicateBlock = new Block(sheet, startRowNum, endRowNum);
+        DuplicateTransformation duplicateTransformation = new DuplicateTransformation(duplicateBlock, rowCollection.getCollectionProperty().getCollection().size()-1);
         transformations.add( duplicateTransformation );
         List cells = rowCollection.getRowCollectionCells();
         for (int i = 0; i < cells.size(); i++) {
             Cell cell = (Cell) cells.get(i);
             if( cell!= null && cell.getHssfCell() != null){
+                shiftBlock.addAffectedColumn( cell.getHssfCell().getCellNum() );
+                duplicateBlock.addAffectedColumn( cell.getHssfCell().getCellNum() );
             }
         }
-        formulaController.updateFormulas( shiftTransformation );
-        formulaController.updateFormulas( duplicateTransformation );
+        formulaController.updateWorkbookFormulas( shiftTransformation );
+        formulaController.updateWorkbookFormulas( duplicateTransformation );
         Util.duplicateRow( rowCollection );
     }
 

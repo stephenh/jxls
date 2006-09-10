@@ -1,25 +1,31 @@
 package net.sf.jxls;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import junit.framework.TestCase;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Random;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.*;
 
-import net.sf.jxls.transformer.XLSTransformer;
 import net.sf.jxls.report.ReportManager;
 import net.sf.jxls.report.ReportManagerImpl;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import net.sf.jxls.transformer.XLSTransformer;
 
 /**
  * @author Leonid Vysochyn
  */
-public class SQLReportingTest extends TestCase {
+public class XLSTransformerStressTest extends TestCase {
 
-    public static final String report = "/templates/report.xls";
-    public static final String reportDest = "target/report_output.xls";
+    protected final Log log = LogFactory.getLog(getClass());
+
+    public static final String stressXLS = "/templates/stress.xls";
+    public static final String stressDestXLS = "stress_output.xls";
 
     public static final String CREATE_EMPLOYEE_TABLE = "CREATE TABLE employee (\n" +
             "  name varchar(20) default NULL,\n" +
@@ -63,6 +69,7 @@ public class SQLReportingTest extends TestCase {
     Connection conn;
 
     protected void setUp() throws Exception {
+        super.setUp();
         Class.forName("org.hsqldb.jdbcDriver");
         conn = DriverManager.getConnection("jdbc:hsqldb:mem:jxls", "sa", "");
         Statement stmt = conn.createStatement();
@@ -70,30 +77,36 @@ public class SQLReportingTest extends TestCase {
         stmt.executeUpdate( CREATE_EMPLOYEE_TABLE );
         PreparedStatement insertDep = conn.prepareStatement( INSERT_DEPARTMENT );
         PreparedStatement insertStmt = conn.prepareStatement( INSERT_EMPLOYEE );
+        int depNum = 50;
+        int empNum = 100;
+        int maxAge = 50;
+        int minAge = 22;
+        int maxPayment = 4000;
+        int minPayment = 1000;
+
         int k = 1;
         int n = 1;
-        for (int i = 0; i < depNames.length; i++) {
-            String depName = depNames[i];
+        Random r = new Random( System.currentTimeMillis() );
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        for (int i = 0; i < depNum; i++) {
+            String depName = generateDepartmentName(r, depNum);
             insertDep.setString(1, depName);
             insertDep.setInt(2, n++);
             insertDep.executeUpdate();
-            for (int j = 0; j < employeeNames[i].length; j++) {
-                insertStmt.setString(1, employeeNames[i][j]);
-                insertStmt.setInt(2, employeeAges[i][j]);
-                insertStmt.setDouble(3, employeePayments[i][j]);
-                insertStmt.setDouble(4, employeeBonuses[i][j]);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-                insertStmt.setDate(5, new Date( sdf.parse( employeeBirthDates[i][j]).getTime() ) );
+            for (int j = 0; j < empNum; j++) {
+                insertStmt.setString(1, generateEmployeeName(r, empNum*10));
+                insertStmt.setInt(2, r.nextInt((maxAge - minAge))  + minAge );
+                insertStmt.setDouble(3, r.nextInt(maxPayment - minPayment) + minPayment );
+                insertStmt.setDouble(4, r.nextInt(30)/100);
+                insertStmt.setDate(5, new java.sql.Date(System.currentTimeMillis()) );
                 insertStmt.setInt(6, n - 1);
                 insertStmt.setInt(7, k++);
                 insertStmt.executeUpdate();
             }
         }
-
         stmt.close();
         insertStmt.close();
     }
-
     protected void tearDown() throws Exception {
         Statement stmt = conn.createStatement();
         stmt.executeUpdate("DROP TABLE employee");
@@ -101,46 +114,39 @@ public class SQLReportingTest extends TestCase {
         stmt.close();
     }
 
-    public void testSelect() throws IOException {
+    private String generateEmployeeName(Random r, int max) {
+        return "Employee" + r.nextInt(max);
+    }
+
+    private String generateDepartmentName(Random r, int max){
+        return "Department " + r.nextInt(max);
+    }
+
+    public void testTransformXLS() throws IOException {
         Map beans = new HashMap();
         ReportManager rm = new ReportManagerImpl( conn, beans );
         beans.put("rm", rm);
         beans.put("minDate", "1979-01-01");
 
-        InputStream is = new BufferedInputStream(getClass().getResourceAsStream(report));
+        InputStream is = new BufferedInputStream(getClass().getResourceAsStream(stressXLS));
         XLSTransformer transformer = new XLSTransformer();
-//        transformer.setJexlInnerCollectionsAccess( true );
+        long start = System.currentTimeMillis();
         HSSFWorkbook resultWorkbook = transformer.transformXLS(is, beans);
+        long end = System.currentTimeMillis();
+        System.out.println( "Transformation time was: " + (end - start) );
         is.close();
-        // todo
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(reportDest));
-        resultWorkbook.write(os);
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, stressDestXLS );
     }
 
-
-    public void atestHSQLDBConnect() throws SQLException {
-        Statement stmt = conn.createStatement();
-        String query = "SELECT name, age, payment, bonus, birthDate FROM employee order by age desc";
-        ResultSet rs = stmt.executeQuery(query);
-
-        while (rs.next()) {
-           String name = rs.getString("name");
-           int age = rs.getInt("age");
-           double payment = rs.getDouble("payment");
-           double bonus = rs.getDouble("bonus");
-           Date date = rs.getDate("birthDate");
-           System.out.println("Name: " + name);
-            System.out.println("Age: " + age);
-            System.out.println("Payment: " + payment);
-            System.out.println("Bonus: " + bonus);
-            System.out.println("BirthDate: " + date);
+    private void saveWorkbook(HSSFWorkbook resultWorkbook, String fileName) throws IOException {
+        String saveResultsProp = System.getProperty("saveResults");
+        if( "true".equalsIgnoreCase(saveResultsProp) ){
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
+            resultWorkbook.write(os);
+            os.flush();
+            os.close();
         }
-        rs.close();
-        stmt.close();
-
-
     }
+
 
 }

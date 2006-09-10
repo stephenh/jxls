@@ -47,6 +47,7 @@ public class SheetTransformationControllerTest extends TestCase {
         Workbook wb = new Workbook(destWorkbook);
         Sheet sheet = new Sheet(destWorkbook, destSheet);
         wb.addSheet( sheet );
+        wb.createFormulaController();
         SheetTransformationControllerImpl stc = new SheetTransformationControllerImpl(sheet);
         stc.duplicateDown( block, 2 );
 
@@ -92,6 +93,7 @@ public class SheetTransformationControllerTest extends TestCase {
         Workbook wb = new Workbook(destWorkbook);
         Sheet sheet = new Sheet(destWorkbook, destSheet);
         wb.addSheet( sheet );
+        wb.createFormulaController();
 
         SheetTransformationController stc = new SheetTransformationControllerImpl(sheet);
         stc.removeBorders( block );
@@ -141,6 +143,7 @@ public class SheetTransformationControllerTest extends TestCase {
         Sheet sheet = new Sheet(destWorkbook, destSheet);
         Block block = new Block(sheet, 1, 3);
         wb.addSheet( sheet );
+        wb.createFormulaController();
         SheetTransformationController stc = new SheetTransformationControllerImpl(sheet);
         stc.removeBodyRows( block );
 

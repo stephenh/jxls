@@ -29,9 +29,10 @@ public class CommonFormulaResolver extends BaseFormulaResolver {
         if( sourceFormula.containsListRanges() ){
             resolvedFormula = replaceListRanges( sourceFormula );
         }
-//        else{
+        else{
+            resolvedFormula = sourceFormula.getActualFormula();
 //            resolvedFormula = replaceTransformedCells( sourceFormula, cellFinder );
-//        }
+        }
         return resolvedFormula;
     }
 

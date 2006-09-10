@@ -16,6 +16,7 @@ import net.sf.jxls.exception.TaglibRegistrationException;
 import net.sf.jxls.formula.Formula;
 import net.sf.jxls.formula.CommonFormulaResolver;
 import net.sf.jxls.formula.FormulaResolver;
+import net.sf.jxls.formula.FormulaController;
 import net.sf.jxls.tag.Taglib;
 
 import java.io.*;
@@ -25,6 +26,7 @@ import java.util.*;
  * <p> This class uses excel template to generate excel file filled with required objects and collections.
  * <p/>
  * @author Leonid Vysochyn
+ * @author Vincent Dutat
  */
 public class XLSTransformer {
     protected final Log log = LogFactory.getLog(getClass());
@@ -291,7 +293,10 @@ public class XLSTransformer {
                             beanParams.put( beanName, bean );
                             HSSFSheet newSheet = hssfWorkbook.createSheet( (String) newSheetNames.get(i) );
                             Util.copySheets(newSheet, templateSheet);
+                            Util.copyPageSetup(newSheet, hssfSheet);
+                            Util.copyPrintSetup(newSheet, hssfSheet);
                             sheet = new Sheet(hssfWorkbook, newSheet, configuration);
+                            // todo: implement update of the FormulaController instance when adding new sheet to workbook
                             workbook.addSheet( sheet );
                             sheetTransformer.transformSheet(workbookTransformationController, sheet, beanParams );
                         }
@@ -312,6 +317,11 @@ public class XLSTransformer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for(int i = 0;i < hssfWorkbook.getNumberOfSheets();i++)
+        {
+            Util.setPrintArea(hssfWorkbook,i);
+        }
+
         return hssfWorkbook;
     }
 
@@ -321,6 +331,7 @@ public class XLSTransformer {
             HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(sheetNo);
             workbook.addSheet( new Sheet(hssfWorkbook, hssfSheet, configuration));
         }
+        workbook.createFormulaController();
         return workbook;
     }
 
@@ -328,16 +339,8 @@ public class XLSTransformer {
         if( formulaResolver == null ){
             formulaResolver = new CommonFormulaResolver();
         }
-        List formulas = workbookTransformationController.getWorkbook().getFormulas();
-        for (int i = 0; i < formulas.size(); i++) {
-            Formula formula = (Formula) formulas.get(i);
-            String formulaString = formulaResolver.resolve( formula, null);
-            HSSFRow hssfRow = formula.getSheet().getHssfSheet().getRow(formula.getRowNum().intValue());
-            HSSFCell hssfCell = hssfRow.getCell(formula.getCellNum().shortValue());
-            if (formulaString != null) {
-                hssfCell.setCellFormula(formulaString);
-            }
-        }
+        FormulaController formulaController = workbookTransformationController.getWorkbook().getFormulaController();
+        formulaController.writeFormulas( formulaResolver );
     }
 
 

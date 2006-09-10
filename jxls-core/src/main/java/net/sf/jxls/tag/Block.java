@@ -2,6 +2,11 @@ package net.sf.jxls.tag;
 
 import net.sf.jxls.transformer.Sheet;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+
 /**
  * Represents rectangular range of excel cells
  * @author Leonid Vysochyn
@@ -13,6 +18,8 @@ public class Block {
     short endCellNum;
 
     Sheet sheet;
+
+    Set affectedColumns = new HashSet();
 
     public Block(Sheet sheet, int startRowNum, int endRowNum) {
         this.startRowNum = startRowNum;
@@ -27,6 +34,10 @@ public class Block {
         this.startCellNum = startCellNum;
         this.endRowNum = endRowNum;
         this.endCellNum = endCellNum;
+    }
+
+    public void addAffectedColumn(short col){
+        affectedColumns.add( new Short(col) );
     }
 
     public Block horizontalShift(short cellShift){
@@ -82,12 +93,22 @@ public class Block {
     }
 
     public boolean contains(int rowNum, int cellNum){
-        return (startRowNum <= rowNum && rowNum <= endRowNum && ((startCellNum==-1 && endCellNum==-1) || (startCellNum <= cellNum && cellNum <= endCellNum)));
+        boolean flag = (startRowNum <= rowNum && rowNum <= endRowNum && ((startCellNum==-1 && endCellNum==-1) || (startCellNum <= cellNum && cellNum <= endCellNum)));
+        if(flag && !affectedColumns.isEmpty()){
+            return affectedColumns.contains( new Short( (short) cellNum) );
+        }else{
+            return flag;
+        }
     }
 
     public boolean contains(Point p){
-        return (startRowNum <= p.getRow() && p.getRow() <= endRowNum &&
+        boolean flag =  (startRowNum <= p.getRow() && p.getRow() <= endRowNum &&
                 ((startCellNum<0 || endCellNum<0) || (startCellNum <= p.getCol() && p.getCol() <= endCellNum)));
+        if(flag && !affectedColumns.isEmpty()){
+            return affectedColumns.contains( new Short( p.getCol() ) );
+        }else{
+            return flag;
+        }
     }
 
     public boolean isAbove(Point p){

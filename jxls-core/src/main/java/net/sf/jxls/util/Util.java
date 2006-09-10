@@ -17,7 +17,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
+ * This class contains many utility methods used by jXLS framework
  * @author Leonid Vysochyn
+ * @author Vincent Dutat
  */
 public final class Util {
     protected static Log log = LogFactory.getLog(Util.class);
@@ -628,6 +630,46 @@ public final class Util {
         HSSFRow hssfRow  = sheet.getRow( rowNum );
         HSSFCell hssfCell = hssfRow.getCell( colNum );
         hssfCell.setCellValue( cellValue );
+    }
+
+    public static void copyPageSetup(HSSFSheet destSheet, HSSFSheet srcSheet) {
+        HSSFHeader header = srcSheet.getHeader();
+        HSSFFooter footer = srcSheet.getFooter();
+        if (footer != null) {
+            destSheet.getFooter().setLeft(footer.getLeft());
+            destSheet.getFooter().setCenter(footer.getCenter());
+            destSheet.getFooter().setRight(footer.getRight());
+        }
+        if (header != null) {
+            destSheet.getHeader().setLeft(header.getLeft());
+            destSheet.getHeader().setCenter(header.getCenter());
+            destSheet.getHeader().setRight(header.getRight());
+        }
+    }
+
+    public static void copyPrintSetup(HSSFSheet destSheet, HSSFSheet  srcSheet) {
+        HSSFPrintSetup setup = srcSheet.getPrintSetup();
+        if (setup != null) {
+            destSheet.getPrintSetup().setLandscape(setup.getLandscape());
+            destSheet.getPrintSetup().setPaperSize(setup.getPaperSize());
+            destSheet.getPrintSetup().setScale(setup.getScale());
+        }
+    }
+
+    public static void setPrintArea(HSSFWorkbook resultWorkbook, int sheetNum) {
+        int maxColumnNum = 0;
+        for (int j = resultWorkbook.getSheetAt(sheetNum).getFirstRowNum(); j <= resultWorkbook.getSheetAt(sheetNum).getLastRowNum(); j++) {
+            HSSFRow row = resultWorkbook.getSheetAt(sheetNum).getRow(j);
+            if (row != null) {
+                maxColumnNum = row.getLastCellNum();
+            }
+        }
+        resultWorkbook.setPrintArea(sheetNum,
+                0,
+                maxColumnNum,
+                0,
+                resultWorkbook.getSheetAt(sheetNum).getLastRowNum()
+        );
     }
 
 

@@ -24,83 +24,83 @@ public class XLSTransformerTest extends TestCase {
     protected final Log log = LogFactory.getLog(getClass());
 
     public static final String simpleBeanXLS = "/templates/simplebean.xls";
-    public static final String simpeBeanDestXLS = "/simplebean_output.xls";
+    public static final String simpeBeanDestXLS = "target/simplebean_output.xls";
 
     public static final String hideSheetsXLS = "/templates/hidesheets.xls";
-    public static final String hideSheetsDestXLS = "/hidesheets_output.xls";
+    public static final String hideSheetsDestXLS = "target/hidesheets_output.xls";
 
     public static final String beanWithListXLS = "/templates/beanwithlist.xls";
-    public static final String beanWithListDestXLS = "/beanwithlist_output.xls";
+    public static final String beanWithListDestXLS = "target/beanwithlist_output.xls";
 
     public static final String emptyBeansXLS = "/templates/beanwithlist.xls";
-    public static final String emptyBeansDestXLS = "/emptybeans_output.xls";
+    public static final String emptyBeansDestXLS = "target/emptybeans_output.xls";
 
     public static final String formulasXLS = "/templates/formulas.xls";
-    public static final String formulasDestXLS = "/formulas_output.xls";
+    public static final String formulasDestXLS = "target/formulas_output.xls";
 
     public static final String multipleListRowsXLS = "/templates/multiplelistrows.xls";
-    public static final String multipleListRowsDestXLS = "/multiplelistrows_output.xls";
+    public static final String multipleListRowsDestXLS = "target/multiplelistrows_output.xls";
 
     public static final String grouping1XLS = "/templates/grouping1.xls";
-    public static final String grouping1DestXLS = "/grouping1_output.xls";
+    public static final String grouping1DestXLS = "target/grouping1_output.xls";
 
     public static final String groupingFormulasXLS = "/templates/groupingformulas.xls";
-    public static final String groupingFormulasDestXLS = "/groupingformulas_output.xls";
+    public static final String groupingFormulasDestXLS = "target/groupingformulas_output.xls";
 
     public static final String grouping2XLS = "/templates/grouping2.xls";
-    public static final String grouping2DestXLS = "/grouping2_output.xls";
+    public static final String grouping2DestXLS = "target/grouping2_output.xls";
 
     public static final String grouping3XLS = "/templates/grouping3.xls";
-    public static final String grouping3DestXLS = "/grouping3_output.xls";
+    public static final String grouping3DestXLS = "target/grouping3_output.xls";
 
     public static final String mergeCellsListXLS = "/templates/mergecellslist.xls";
-    public static final String mergeCellsListDestXLS = "/mergecellslist_output.xls";
+    public static final String mergeCellsListDestXLS = "target/mergecellslist_output.xls";
 
     public static final String mergeMultipleListRowsXLS = "/templates/mergemultiplelistrows.xls";
-    public static final String mergeMultipleListRowsDestXLS = "/mergemultiplelistrows_output.xls";
+    public static final String mergeMultipleListRowsDestXLS = "target/mergemultiplelistrows_output.xls";
 
     public static final String severalPropertiesInCellXLS = "/templates/severalpropertiesincell.xls";
-    public static final String severalPropertiesInCellDestXLS = "/severalpropertiesincell_output.xls";
+    public static final String severalPropertiesInCellDestXLS = "target/severalpropertiesincell_output.xls";
 
     public static final String parallelTablesXLS = "/templates/paralleltables.xls";
-    public static final String parallelTablesDestXLS = "/paralleltables_output.xls";
+    public static final String parallelTablesDestXLS = "target/paralleltables_output.xls";
 
     public static final String severalListsInRowXLS = "/templates/severallistsinrow.xls";
-    public static final String severalListsInRowDestXLS = "/severallistsinrow_output.xls";
+    public static final String severalListsInRowDestXLS = "target/severallistsinrow_output.xls";
 
     public static final String fixedSizeListXLS = "/templates/fixedsizelist.xls";
-    public static final String fixedSizeListDestXLS = "/fixedsizelist_output.xls";
+    public static final String fixedSizeListDestXLS = "target/fixedsizelist_output.xls";
 
     public static final String expressions1XLS = "/templates/expressions1.xls";
-    public static final String expressions1DestXLS = "/expressions1_output.xls";
+    public static final String expressions1DestXLS = "target/expressions1_output.xls";
 
     public static final String iftagXLS = "/templates/iftag.xls";
-    public static final String iftagDestXLS = "/iftag_output.xls";
+    public static final String iftagDestXLS = "target/iftag_output.xls";
 
     public static final String forifTag2XLS = "/templates/foriftag2.xls";
-    public static final String forifTag2DestXLS = "/foriftag2_output.xls";
+    public static final String forifTag2DestXLS = "target/foriftag2_output.xls";
 
     public static final String forifTagMergeXLS = "/templates/foriftagmerge.xls";
-    public static final String forifTagMergeDestXLS = "/foriftagmerge_output.xls";
+    public static final String forifTagMergeDestXLS = "target/foriftagmerge_output.xls";
 
     public static final String employeeNotesXLS = "/templates/employeeNotes.xls";
-    public static final String employeeNotesDestXLS = "/employeeNotes_output.xls";
-    public static final String employeeNotesRusDestXLS = "/employeeNotesRus_output.xls";
+    public static final String employeeNotesDestXLS = "target/employeeNotes_output.xls";
+    public static final String employeeNotesRusDestXLS = "target/employeeNotesRus_output.xls";
 
     public static final String forifTagOneRowXLS = "/templates/foriftagOneRow.xls";
-    public static final String forifTagOneRowDestXLS = "/foriftagOneRow_output.xls";
+    public static final String forifTagOneRowDestXLS = "target/foriftagOneRow_output.xls";
 
     public static final String multipleSheetListXLS = "/templates/multipleSheetList.xls";
-    public static final String multipleSheetListDestXLS = "/multipleSheetList_output.xls";
+    public static final String multipleSheetListDestXLS = "target/multipleSheetList_output.xls";
 
     public static final String groupTagXLS = "/templates/groupTag.xls";
-    public static final String groupTagDestXLS = "/groupTag_output.xls";
+    public static final String groupTagDestXLS = "target/groupTag_output.xls";
 
     public static final String jexlXLS = "/templates/jexl.xls";
-    public static final String jexlDestXLS = "/jexl_output.xls";
+    public static final String jexlDestXLS = "target/jexl_output.xls";
 
     public static final String forGroupByXLS = "/templates/forgroup.xls";
-    public static final String forGroupByDestXLS = "/forgroup_output.xls";
+    public static final String forGroupByDestXLS = "target/forgroup_output.xls";
 
     SimpleBean simpleBean1;
     SimpleBean simpleBean2;
@@ -240,11 +240,8 @@ public class XLSTransformerTest extends TestCase {
         CellsChecker checker = new CellsChecker(propertyMap);
         checker.checkRows(sourceSheet, resultSheet, sourceSheet.getFirstRowNum(), resultSheet.getFirstRowNum(), sourceSheet.getLastRowNum() - sourceSheet.getFirstRowNum());
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(simpeBeanDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, simpeBeanDestXLS);
     }
 
     public void testBeanWithListExport() throws IOException, ParsePropertyException {
@@ -272,11 +269,8 @@ public class XLSTransformerTest extends TestCase {
         checker.checkListCells(sourceSheet, 3, resultSheet, 3, (short) 2, new Object[]{new Integer(123), new Integer(10234), null});
         checker.checkListCells(sourceSheet, 3, resultSheet, 3, (short) 3, dateValues);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(beanWithListDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, beanWithListDestXLS);
     }
 
     public void testFormulas() throws IOException, ParsePropertyException {
@@ -352,11 +346,8 @@ public class XLSTransformerTest extends TestCase {
         checker.checkFormulaCell( sourceSheet, 15, resultSheet, 40, (short)1, "SUM(B29,B32,B35,B38)");
         checker.checkFormulaCell( sourceSheet, 15, resultSheet, 53, (short)1, "SUM(B45,B48,B51)");
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(formulasDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, formulasDestXLS);
     }
 
     public void testMultipleListRows() throws IOException, ParsePropertyException {
@@ -407,11 +398,8 @@ public class XLSTransformerTest extends TestCase {
         checker = new CellsChecker(props);
         checker.checkRows(sourceSheet, resultSheet, 3, 11, 4);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(multipleListRowsDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, multipleListRowsDestXLS);
     }
 
     public void testMergedMultipleListRows() throws IOException, ParsePropertyException {
@@ -465,11 +453,8 @@ public class XLSTransformerTest extends TestCase {
         assertTrue( "Merged Region not found", isMergedRegion( resultSheet, new Region(9, (short)1, 10, (short)2) ) );
         assertTrue( "Merged Region not found", isMergedRegion( resultSheet, new Region(13, (short)1, 14, (short)2) ) );
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(mergeMultipleListRowsDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, mergeMultipleListRowsDestXLS);
     }
 
     public void testGrouping1() throws IOException, ParsePropertyException {
@@ -540,12 +525,8 @@ public class XLSTransformerTest extends TestCase {
         checker.checkRows(sourceSheet, resultSheet, 3, 9, 1);
         checker.checkRows(sourceSheet, resultSheet, 4, 10, 1);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(grouping1DestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
-
+        saveWorkbook(resultWorkbook, grouping1DestXLS);
     }
 
     /**
@@ -582,11 +563,8 @@ public class XLSTransformerTest extends TestCase {
         assertTrue( "Merged Region (4,1,4,2) not found", isMergedRegion( resultSheet, new Region(4, (short)1, 4, (short)2) ) );
         assertTrue( "Merged Region (5,1,5,2) not found", isMergedRegion( resultSheet, new Region(5, (short)1, 5, (short)2) ) );
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(mergeCellsListDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, mergeCellsListDestXLS);
     }
 
     protected static boolean isMergedRegion(HSSFSheet sheet, Region region){
@@ -661,12 +639,8 @@ public class XLSTransformerTest extends TestCase {
         checker = new CellsChecker(props);
         checker.checkRows(sourceSheet, resultSheet, 3, 12, 3);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(grouping2DestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
-
+        saveWorkbook(resultWorkbook, grouping2DestXLS);
     }
 
     public void testGrouping3() throws IOException, ParsePropertyException {
@@ -725,12 +699,7 @@ public class XLSTransformerTest extends TestCase {
         checker.checkFormulaCell( sourceSheet, 4, resultSheet, 23, (short)1, "SUM(B21:B23)");
         checker.checkFormulaCell( sourceSheet, 4, resultSheet, 23, (short)3, "SUM(D21:D23)");
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(grouping3DestXLS));
-        resultWorkbook.write(os);
-        os.flush();
-        os.close();
-
+        saveWorkbook(resultWorkbook, grouping3DestXLS);
     }
 
     public void testGroupingFormulas() throws IOException, ParsePropertyException {
@@ -801,11 +770,7 @@ public class XLSTransformerTest extends TestCase {
         checker.checkRows(sourceSheet, resultSheet, 3, 9, 1);
         checker.checkFormulaCell(sourceSheet, 4, resultSheet, 10, (short) 1, "SUM(B9:B10)");
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(groupingFormulasDestXLS));
-        resultWorkbook.write(os);
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, groupingFormulasDestXLS);
     }
 
     public void testSeveralPropertiesInCell() throws IOException, ParsePropertyException {
@@ -849,12 +814,8 @@ public class XLSTransformerTest extends TestCase {
                         ((SimpleBean)beanWithList.getBeans().get(1)).getName() + " : " + ((SimpleBean)beanWithList.getBeans().get(1)).getDoubleValue() + "!",
                         ((SimpleBean)beanWithList.getBeans().get(2)).getName() + " : " + ((SimpleBean)beanWithList.getBeans().get(2)).getDoubleValue() + "!" });
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(severalPropertiesInCellDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, severalPropertiesInCellDestXLS);
     }
 
     public void testParallelTablesExport() throws IOException, ParsePropertyException {
@@ -899,12 +860,8 @@ public class XLSTransformerTest extends TestCase {
         assertTrue( "Merged Region (4,0,4,1) not found", isMergedRegion( resultSheet, new Region(4, (short)0, 4, (short)1) ) );
         assertTrue( "Merged Region (3,6,3,7) not found", isMergedRegion( resultSheet, new Region(3, (short)6, 3, (short)7) ) );
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(parallelTablesDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, parallelTablesDestXLS);
     }
 
     public void testSeveralListsInRowExport() throws IOException, ParsePropertyException {
@@ -977,11 +934,8 @@ public class XLSTransformerTest extends TestCase {
         assertTrue( "Merged Region (5,3,5,4) not found", isMergedRegion( resultSheet, new Region(5, (short)3, 5, (short)4) ) );
 
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(severalListsInRowDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, severalListsInRowDestXLS );
     }
 
     public void testFixedSizeCollections() throws IOException, ParsePropertyException {
@@ -1010,11 +964,8 @@ public class XLSTransformerTest extends TestCase {
         checker.checkFixedListCells( sourceSheet, 2, resultSheet, 2, (short)1, itPayments);
         checker.checkFixedListCells( sourceSheet, 2, resultSheet, 2, (short)2, itBonuses);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(fixedSizeListDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, fixedSizeListDestXLS);
 
     }
 
@@ -1064,11 +1015,8 @@ public class XLSTransformerTest extends TestCase {
                         + " - " + (((SimpleBean)beanWithList.getBeans().get(2)).getIntValue().intValue()*(10 + 1.1))});
 
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(expressions1DestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, expressions1DestXLS);
     }
 
     public void testIfTag() throws IOException, ParsePropertyException {
@@ -1117,11 +1065,8 @@ public class XLSTransformerTest extends TestCase {
         props.put("${sb.doubleValue}",doubleValues[2]);
         checker.checkRows( sourceSheet, resultSheet, 6, 9, 1);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(iftagDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, iftagDestXLS);
     }
 
     public void testForIfTag2() throws IOException, ParsePropertyException {
@@ -1188,11 +1133,8 @@ public class XLSTransformerTest extends TestCase {
 //        checker.checkFormulaCell( sourceSheet, 4, resultSheet, 23, (short)1, "SUM(B21:B23)");
 //        checker.checkFormulaCell( sourceSheet, 4, resultSheet, 23, (short)3, "SUM(D21:D23)");
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(forifTag2DestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, forifTag2DestXLS);
     }
 
     public void testEmptyBeansExport() throws IOException, ParsePropertyException {
@@ -1222,12 +1164,8 @@ public class XLSTransformerTest extends TestCase {
         CellsChecker checker = new CellsChecker(props);
         checker.checkRows(sourceSheet, resultSheet, 0, 0, 3);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(emptyBeansDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
-
+        saveWorkbook( resultWorkbook, emptyBeansDestXLS );
     }
 
 
@@ -1248,11 +1186,8 @@ public class XLSTransformerTest extends TestCase {
         CellsChecker checker = new CellsChecker(props);
         checker.checkListCells( sourceSheet, 2, resultSheet, 2, (short)1, ((Employee)itEmployees.get(0)).getNotes().toArray() );
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(employeeNotesDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, employeeNotesDestXLS);
 
     }
 
@@ -1281,11 +1216,8 @@ public class XLSTransformerTest extends TestCase {
         CellsChecker checker = new CellsChecker(props);
         checker.checkListCells( sourceSheet, 2, resultSheet, 2, (short)1, emp.getNotes().toArray() );
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(employeeNotesRusDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, employeeNotesRusDestXLS);
 
     }
 
@@ -1350,11 +1282,8 @@ public class XLSTransformerTest extends TestCase {
             checker.checkCells(sourceSheet, resultSheet, 3, (short)srcCol, 8, (short)(i*2 + 2));
         }
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(forifTagOneRowDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, forifTagOneRowDestXLS);
     }
 
     public void testHiddenSheetsExport() throws IOException, ParsePropertyException {
@@ -1364,13 +1293,9 @@ public class XLSTransformerTest extends TestCase {
         XLSTransformer transformer = new XLSTransformer();
         transformer.setSpreadsheetsToHide(new String[]{"Sheet 2", "Sheet 3"});
         HSSFWorkbook resultWorkbook = transformer.transformXLS(is, beans);
-        is.close();
         assertEquals("Number of sheets in result workbook is incorrect", 1, resultWorkbook.getNumberOfSheets() );
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(hideSheetsDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, hideSheetsDestXLS);
     }
 
     public void testMultipleSheetList() throws IOException, ParsePropertyException {
@@ -1406,11 +1331,8 @@ public class XLSTransformerTest extends TestCase {
 //        checker.checkFormulaCell( sourceSheet, 3, resultSheet, 3, (short)3, "B4*(1+C4)");
 //        checker.checkFormulaCell( sourceSheet, 3, resultSheet, 4, (short)3, "B5*(1+C5)");
 //        checker.checkFormulaCell( sourceSheet, 3, resultSheet, 7, (short)3, "B8*(1+C8)");
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(multipleSheetListDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, multipleSheetListDestXLS);
     }
 
     public void testGroupTag() throws IOException, ParsePropertyException {
@@ -1429,12 +1351,7 @@ public class XLSTransformerTest extends TestCase {
 //        HSSFSheet sourceSheet = sourceWorkbook.getSheetAt(0);
 //        HSSFSheet resultSheet = resultWorkbook.getSheetAt(0);
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(groupTagDestXLS));
-        resultWorkbook.write(os);
-        is.close();
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, groupTagDestXLS );
     }
 
     public void testForIfTagMergeCellsExport() throws IOException, ParsePropertyException {
@@ -1445,15 +1362,7 @@ public class XLSTransformerTest extends TestCase {
         XLSTransformer transformer = new XLSTransformer();
         HSSFWorkbook resultWorkbook = transformer.transformXLS(is, beans);
         is.close();
-        is = new BufferedInputStream(getClass().getResourceAsStream(forifTagMergeXLS));
-        POIFSFileSystem fs = new POIFSFileSystem(is);
-        HSSFWorkbook sourceWorkbook = new HSSFWorkbook(fs);
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(forifTagMergeDestXLS));
-        resultWorkbook.write(os);
-        is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, forifTagMergeDestXLS);
     }
 
     public void testJEXLExpressions() throws IOException {
@@ -1511,10 +1420,7 @@ public class XLSTransformerTest extends TestCase {
                               ((Bean.InnerBean)bean.getCollection().get(1)).getInnerCollection().get(0).toString(),
                                 ((Bean.InnerBean)bean.getCollection().get(2)).getInnerCollection().get(0).toString()});
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(jexlDestXLS));
-        resultWorkbook.write(os);
-        os.flush();
-        os.close();
+        saveWorkbook( resultWorkbook, jexlDestXLS);
 
     }
 
@@ -1527,15 +1433,19 @@ public class XLSTransformerTest extends TestCase {
         HSSFWorkbook resultWorkbook = transformer.transformXLS(is, beans);
         is.close();
         is = new BufferedInputStream(getClass().getResourceAsStream(forGroupByXLS));
-//        POIFSFileSystem fs = new POIFSFileSystem(is);
-//        HSSFWorkbook sourceWorkbook = new HSSFWorkbook(fs);
 
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(forGroupByDestXLS));
-        resultWorkbook.write(os);
         is.close();
-        os.flush();
-        os.close();
+        saveWorkbook(resultWorkbook, forGroupByDestXLS);
+    }
+
+    private void saveWorkbook(HSSFWorkbook resultWorkbook, String fileName) throws IOException {
+        String saveResultsProp = System.getProperty("saveResults");
+        if( "true".equalsIgnoreCase(saveResultsProp) ){
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
+            resultWorkbook.write(os);
+            os.flush();
+            os.close();
+        }
     }
 
 

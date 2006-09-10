@@ -20,10 +20,10 @@ import java.io.*;
 public class TagBodyHelperTest extends TestCase {
     protected final Log log = LogFactory.getLog(getClass());
     public static final String simpleBeanXLS = "/templates/simplebean.xls";
-    public static final String simpeBeanDestXLS = "/duplicate_output.xls";
+    public static final String simpeBeanDestXLS = "target/duplicate_output.xls";
 
     public static final String grouping1XLS = "/templates/grouping1.xls";
-    public static final String grouping1DestXLS = "/replace_output.xls";
+    public static final String grouping1DestXLS = "target/replace_output.xls";
 
 
 

@@ -60,12 +60,15 @@ public class SheetHelper {
         List formulas = new ArrayList();
         if( hssfRow!=null ){
             Row row = new Row(sheet, hssfRow);
+            CellParser cellParser;
+            Formula formula;
+            HSSFCell hssfCell;
             for(short i = hssfRow.getFirstCellNum(); i <= hssfRow.getLastCellNum(); i++){
-                HSSFCell hssfCell = hssfRow.getCell( i );
+                hssfCell = hssfRow.getCell( i );
                 if( hssfCell!=null ){
-                    CellParser cellParser = new CellParser(hssfCell, row, sheet.getConfiguration());
+                    cellParser = new CellParser(hssfCell, row, sheet.getConfiguration());
                     if( cellParser.parseCellFormula() != null && !cellParser.getCell().getFormula().isInline() ){
-                        Formula formula = cellParser.getCell().getFormula();
+                        formula = cellParser.getCell().getFormula();
                         formula.setSheet( sheet );
                         formulas.add( formula );
                     }
