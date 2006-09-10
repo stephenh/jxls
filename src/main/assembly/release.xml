@@ -4,12 +4,6 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
-    <!--<fileSets>-->
-        <!--<directory>dist</directory>-->
-        <!--<fileSet>-->
-            <!--<includes>net.sf.jxls:jxls-core</includes>-->
-        <!--</fileSet>-->
-    <!--</fileSets>-->
   <moduleSets>
     <moduleSet>
       <includes>
@@ -38,16 +32,30 @@
             </includes>
         </fileSet>
         <fileSet>
-            <outputDirectory>src</outputDirectory>
             <includes>
-                <include>jxls-examples/pom.xml</include>
-                <include>jxls-examples/src/**</include>
-                <include>jxls-examples/readme.txt</include>
+                <include>readme.txt</include>
             </includes>
         </fileSet>
         <fileSet>
-            <outputDirectory>src</outputDirectory>
+            <directory>jxls-core/target/site</directory>
+            <outputDirectory>doc</outputDirectory>
             <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>jxls-core/target/javadoc</directory>
+            <outputDirectory>doc/api</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>jxls-examples</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/**</include>
                 <include>readme.txt</include>
             </includes>
         </fileSet>
