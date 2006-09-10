@@ -67,8 +67,7 @@
     </mailingList>
   </mailingLists>
     <scm>
-        <connection>scm:svn:https://anonymous@svn.sourceforge.net/svnroot/jxls/main</connection>
-        <developerConnection>scm:svn:https://lvysochyn@svn.sourceforge.net/svnroot/jxls/main</developerConnection>
+        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jxls/main</connection>
     </scm>
   <issueManagement>
     <system>SourceForge Tracker</system>
