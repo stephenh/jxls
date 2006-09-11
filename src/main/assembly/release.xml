@@ -37,7 +37,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>jxls-core/target/site</directory>
+            <directory>target/site</directory>
             <outputDirectory>doc</outputDirectory>
             <includes>
                 <include>**</include>
