@@ -2,6 +2,7 @@ package net.sf.jxls.transformation;
 
 import net.sf.jxls.tag.Block;
 import net.sf.jxls.tag.Point;
+import net.sf.jxls.formula.CellRef;
 import org.apache.poi.hssf.util.CellReference;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  */
 public class DuplicateTransformation extends BlockTransformation {
 
+    int rowNum, colNum;
     int duplicateNumber;
 
     public DuplicateTransformation(Block block, int duplicateNumber) {
@@ -48,33 +50,40 @@ public class DuplicateTransformation extends BlockTransformation {
         String resultCellRef = cell;
         if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
             // sheet check passed
-            Point p = new Point( rowNum, colNum );
-            if( block.contains( p ) && duplicateNumber >= 1 && duplicateNumber >= duplicateBlock){
-                p = p.shift( block.getNumberOfRows() * duplicateBlock, 0 );
-                resultCellRef = p.toString( refSheetName );
+            if( block.contains( rowNum, colNum ) && duplicateNumber >= 1 && duplicateNumber >= duplicateBlock){
+                rowNum += block.getNumberOfRows() * duplicateBlock;
+                resultCellRef = cellToString( rowNum, colNum, refSheetName );
             }
         }
         return resultCellRef;
     }
 
-    public List transformCell(String sheetName, String cell) {
-        CellReference cellRef = new CellReference(cell);
-        int rowNum = cellRef.getRow();
-        short colNum = cellRef.getCol();
+    public List transformCell(String sheetName, CellRef cellRef) {
         String refSheetName = cellRef.getSheetName();
         List cells = new ArrayList();
         if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
             // sheet check passed
-            Point p = new Point( rowNum, colNum );
-            if( block.contains( p ) /*&& duplicateNumber >= 1*/){
-                cells.add( p.toString(refSheetName) );
+            if( block.contains( cellRef.getRowNum(), cellRef.getColNum() ) /*&& duplicateNumber >= 1*/){
+                rowNum = cellRef.getRowNum();
+                cells.add( cellToString( rowNum, cellRef.getColNum(), refSheetName) );
                 for( int i = 0; i < duplicateNumber; i++){
-                    p = p.shift( block.getNumberOfRows(), 0);
-                    cells.add( p.toString( refSheetName ));
+                    rowNum += block.getNumberOfRows();
+                    cells.add( cellToString( rowNum, cellRef.getColNum(), refSheetName ));
                 }
             }
         }
         return cells;
+    }
+
+    public String cellToString(int rowNum, int colNum, String sheetName){
+        String cellname;
+        CellReference cellReference = new CellReference( rowNum, colNum );
+        if( sheetName != null ){
+            cellname = sheetName + "!" + cellReference.toString();
+        }else{
+            cellname = cellReference.toString();
+        }
+        return cellname;
     }
 
     public boolean equals(Object obj) {

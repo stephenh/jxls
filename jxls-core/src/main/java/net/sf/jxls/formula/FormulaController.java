@@ -8,7 +8,6 @@ import java.util.Map;
  * @author Leonid Vysochyn
  */
 public interface FormulaController {
-    public void updateFormulas(BlockTransformation transformation);
     public void updateWorkbookFormulas(BlockTransformation transformation);
     public Map getSheetFormulasMap();
 

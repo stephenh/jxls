@@ -18,6 +18,9 @@ public class CellRef {
     String cellRef;
     String baseCellRef;
     Formula parentFormula;
+    int rowNum;
+    short colNum;
+    String sheetName;
 
     List rangeFormulaParts = new ArrayList();
 
@@ -25,6 +28,10 @@ public class CellRef {
     private CellRef(String cellRef) {
         this.cellRef = cellRef;
         baseCellRef = cellRef;
+        CellReference cellReference = new CellReference(cellRef);
+        rowNum = cellReference.getRow();
+        colNum = cellReference.getCol();
+        sheetName = cellReference.getSheetName();
     }
 
     public CellRef(String cellRef, Formula parentFormula) {
@@ -32,8 +39,24 @@ public class CellRef {
         this.parentFormula = parentFormula;
     }
 
+    public String getSheetName() {
+        return sheetName;
+    }
+
+    public int getRowNum() {
+        return rowNum;
+    }
+
+    public short getColNum() {
+        return colNum;
+    }
+
     public void update(String newCellRef){
         cellRef = newCellRef;
+        CellReference cellReference = new CellReference(cellRef);
+        rowNum = cellReference.getRow();
+        colNum = cellReference.getCol();
+        sheetName = cellReference.getSheetName();
     }
 
     public void update(List newCellRefs){
@@ -42,7 +65,7 @@ public class CellRef {
         if( !rangeFormulaParts.isEmpty() ){
             parentFormula.replaceCellRef( this, rangeFormulaParts );
         }else{
-            cellRef = newCell;
+            update( newCell );
         }
     }
 

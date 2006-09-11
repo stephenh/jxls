@@ -40,11 +40,11 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
 
     public int duplicateDown( Block block, int n ){
         if( n > 0 ){
-            ShiftTransformation shiftTransformation = new ShiftTransformation(new Block(sheet, block.getEndRowNum() + 1, Integer.MAX_VALUE), n * block.getNumberOfRows(), 0);
-            transformations.add( shiftTransformation);
             if( block.getSheet() == null ){
                 block.setSheet( sheet );
             }
+            ShiftTransformation shiftTransformation = new ShiftTransformation(new Block(sheet, block.getEndRowNum() + 1, Integer.MAX_VALUE), n * block.getNumberOfRows(), 0);
+            transformations.add( shiftTransformation);
             DuplicateTransformation duplicateTransformation = new DuplicateTransformation(block, n);
             transformations.add( duplicateTransformation );
             formulaController.updateWorkbookFormulas( shiftTransformation );
@@ -53,31 +53,6 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
         }else{
             return 0;
         }
-    }
-
-    private Map findFormulaRefCellsToUpdate(Block block) {
-        Map formulaCellRefUpdates = new HashMap();
-        List formulas = SheetHelper.findFormulas( sheet, block );
-        for (int i = 0; i < formulas.size(); i++) {
-            Formula formula = (Formula) formulas.get(i);
-            Set refCells = formula.findRefCells();
-
-            Point key = new Point( formula.getRowNum().intValue(), formula.getCellNum().shortValue() );
-            List refCellsToUpdate = new ArrayList();
-            for (Iterator iterator = refCells.iterator(); iterator.hasNext();) {
-                String refCell = (String) iterator.next();
-                if( refCell.indexOf("!")<0 ){
-                    Point point = new Point(refCell);
-                    if( block.contains( point ) ){
-                        refCellsToUpdate.add( refCell );
-                    }
-                    if( !refCellsToUpdate.isEmpty() ){
-                        formulaCellRefUpdates.put( key, refCellsToUpdate );
-                    }
-                }
-            }
-        }
-        return formulaCellRefUpdates;
     }
 
     public int duplicateRight(Block block, int n) {
@@ -110,6 +85,9 @@ public class SheetTransformationControllerImpl implements SheetTransformationCon
     }
 
     public void removeBodyRows(Block block) {
+        if( block.getSheet() == null ){
+            block.setSheet( sheet );
+        }
         transformations.add( new RemoveTransformation( block ) );
         ShiftTransformation shiftTransformation = new ShiftTransformation(new Block(sheet, block.getEndRowNum() + 1, Integer.MAX_VALUE), -block.getNumberOfRows(), 0);
         transformations.add( shiftTransformation );

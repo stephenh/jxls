@@ -74,6 +74,7 @@ public class SheetTransformer {
     }
 
     void transformSheet(WorkbookTransformationController workbookTransformationController, Sheet sheet, Map beans) throws ParsePropertyException {
+        log.info("Processing sheet: " + sheet.getSheetName());
         if( !beans.isEmpty() ){
             SheetTransformationController stc = new SheetTransformationControllerImpl( sheet );
             workbookTransformationController.addSheetTransformationController( stc );

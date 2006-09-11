@@ -2,6 +2,7 @@ package net.sf.jxls.transformation;
 
 import net.sf.jxls.tag.Block;
 import net.sf.jxls.tag.Point;
+import net.sf.jxls.formula.CellRef;
 
 import java.util.List;
 
@@ -13,11 +14,16 @@ public abstract class BlockTransformation {
 
     protected Block block;
 
+    String sheetName;
+
     /**
      * @param block - defines transformation {@link net.sf.jxls.tag.Block}
      */
     protected BlockTransformation(Block block) {
         this.block = block;
+        if( block!=null ){
+            sheetName = block.getSheet().getSheetName();
+        }
     }
 
 
@@ -49,10 +55,10 @@ public abstract class BlockTransformation {
 
     /**
      * Transforms given spreadsheet cell
-     * @param cell - cell name reference representing spreadsheet cell to transform
+     * @param cellRef - {@link CellRef} object representing spreadsheet cell to transform
      * @return {@link List} of cell names which are result of source cell transformation
      */
-    public abstract List transformCell(String sheetName, String cell);
+    public abstract List transformCell(String sheetName, CellRef cellRef);
 
     public boolean equals(Object obj) {
         if( obj != null && obj instanceof BlockTransformation ){

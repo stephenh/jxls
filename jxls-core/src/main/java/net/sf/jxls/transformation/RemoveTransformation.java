@@ -3,6 +3,7 @@ package net.sf.jxls.transformation;
 import net.sf.jxls.transformation.BlockTransformation;
 import net.sf.jxls.tag.Block;
 import net.sf.jxls.tag.Point;
+import net.sf.jxls.formula.CellRef;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class RemoveTransformation extends BlockTransformation {
         return cells;
     }
 
-    public List transformCell(String sheetName, String cell) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List transformCell(String sheetName, CellRef cellRef) {
+        return null;
     }
 
     public String toString() {

@@ -61,6 +61,13 @@ public class Workbook {
         sheet.setWorkbook( this );
     }
 
+    public void initSheetNames(){
+        for (int i = 0; i < sheets.size(); i++) {
+            Sheet sheet = (Sheet) sheets.get(i);
+            sheet.initSheetName();
+        }
+    }
+
     public Map getListRanges(){
         Map listRanges = new HashMap();
         for (int i = 0; i < sheets.size(); i++) {

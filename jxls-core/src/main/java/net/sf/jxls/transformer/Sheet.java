@@ -55,13 +55,22 @@ public class Sheet {
     }
 
     public String getSheetName(){
+        return sheetName;
+    }
+
+    public void setSheetName(String sheetName){
+        this.sheetName = sheetName; 
+    }
+
+    String sheetName;
+
+    public void initSheetName(){
         for(int i = 0; i < hssfWorkbook.getNumberOfSheets(); i++){
             HSSFSheet sheet = hssfWorkbook.getSheetAt( i );
             if( sheet == hssfSheet ){
-                return hssfWorkbook.getSheetName( i );
+                sheetName = hssfWorkbook.getSheetName( i );
             }
         }
-        return null;
     }
 
     public HSSFWorkbook getHssfWorkbook() {
@@ -119,43 +128,6 @@ public class Sheet {
             }
         }
         return maxColNum;
-    }
-
-    public Map getFormulaCellRefsToUpdate(Block block) {
-        List formulas = SheetHelper.findFormulas( this );
-        Map formulaCellRefsToUpdate = new HashMap();
-        String transformedSheetName = block.getSheet().getSheetName();
-        for (int j = 0; j < formulas.size(); j++) {
-            Formula formula = (Formula) formulas.get(j);
-            Set refCells = formula.findRefCells();
-            Point key = new Point( formula.getRowNum().intValue(), formula.getCellNum().shortValue() );
-            List refCellsToUpdate = new ArrayList();
-            for (Iterator iterator = refCells.iterator(); iterator.hasNext();) {
-                String refCell = (String) iterator.next();
-                if( refCell.indexOf("!")<0 ){
-                    if( block.getSheet().getHssfSheet() == hssfSheet ){
-                        updateRefCellList(refCellsToUpdate, refCell, block);
-                    }
-                }else{
-                    int index = refCell.indexOf("!");
-                    String sheetName = refCell.substring(0, index);
-                    if( sheetName.equalsIgnoreCase( transformedSheetName ) ){
-                        updateRefCellList(refCellsToUpdate, refCell, block);
-                    }
-                }
-            }
-            if( !refCellsToUpdate.isEmpty() ){
-                formulaCellRefsToUpdate.put( key, refCellsToUpdate );
-            }
-        }
-        return formulaCellRefsToUpdate;
-    }
-
-    private void updateRefCellList(List refCellsToUpdate, String refCell, Block block) {
-        Point point = new Point(refCell);
-        if( block.contains( point ) ){
-            refCellsToUpdate.add( refCell );
-        }
     }
 
 

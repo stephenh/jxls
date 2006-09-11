@@ -1,20 +1,22 @@
 package net.sf.jxls.transformation;
 
-import net.sf.jxls.transformation.BlockTransformation;
+import net.sf.jxls.formula.CellRef;
 import net.sf.jxls.tag.Block;
 import net.sf.jxls.tag.Point;
 import org.apache.poi.hssf.util.CellReference;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines simple shift transformation
  * @author Leonid Vysochyn
  */
 public class ShiftTransformation extends BlockTransformation {
-    int rowShift;
-    int colShift;
+    int rowShift, colShift;
+    int rowNum, colNum;
+    CellReference cellReference;
+    List cells = new ArrayList();
 
     public ShiftTransformation(Block block, int rowShift, int colShift) {
         super(block);
@@ -23,11 +25,11 @@ public class ShiftTransformation extends BlockTransformation {
     }
 
     public Block getBlockAfterTransformation() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public List transformCell(Point p) {
-        List cells = new ArrayList();
+        cells.clear();
         if( block.contains( p ) || block.isAbove( p )){
             cells.add( p.shift( rowShift, colShift ) );
         }else{
@@ -36,21 +38,18 @@ public class ShiftTransformation extends BlockTransformation {
         return cells;
     }
 
-    public List transformCell(String sheetName, String cell) {
-        CellReference cellRef = new CellReference(cell);
-        int rowNum = cellRef.getRow();
-        short colNum = cellRef.getCol();
+    public List transformCell(String sheetName, CellRef cellRef) {
+        cells.clear();
         String refSheetName = cellRef.getSheetName();
-        List cells = new ArrayList();
-        if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
-            Point p = new Point( rowNum, colNum );
-            if( block.contains( p ) || block.isAbove( p ) ){
-                p = p.shift( rowShift, colShift );
-                cellRef = new CellReference( p.getRow(), p.getCol() );
-                if( refSheetName != null ){
-                    cells.add( refSheetName + "!" + cellRef.toString());
+        if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (cellRef.getSheetName() == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
+            if( block.contains( cellRef.getRowNum(), cellRef.getColNum() ) || block.getEndRowNum() < cellRef.getRowNum() ){
+                rowNum = cellRef.getRowNum() + rowShift;
+                colNum = cellRef.getColNum() + colShift;
+                cellReference = new CellReference( rowNum, colNum );
+                if( cellRef.getSheetName() != null ){
+                    cells.add( cellRef.getSheetName() + "!" + cellReference.toString());
                 }else{
-                    cells.add( cellRef.toString() );
+                    cells.add( cellReference.toString() );
                 }
             }
         }

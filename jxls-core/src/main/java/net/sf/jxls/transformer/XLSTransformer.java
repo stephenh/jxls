@@ -298,6 +298,7 @@ public class XLSTransformer {
                             sheet = new Sheet(hssfWorkbook, newSheet, configuration);
                             // todo: implement update of the FormulaController instance when adding new sheet to workbook
                             workbook.addSheet( sheet );
+                            workbook.initSheetNames();
                             sheetTransformer.transformSheet(workbookTransformationController, sheet, beanParams );
                         }
                         hssfWorkbook.removeSheetAt( hssfWorkbook.getSheetIndex( templateSheetName ) );
@@ -331,6 +332,7 @@ public class XLSTransformer {
             HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(sheetNo);
             workbook.addSheet( new Sheet(hssfWorkbook, hssfSheet, configuration));
         }
+        workbook.initSheetNames();
         workbook.createFormulaController();
         return workbook;
     }

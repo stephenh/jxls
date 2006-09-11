@@ -1,6 +1,7 @@
 package net.sf.jxls.tag;
 
 import net.sf.jxls.transformer.Sheet;
+import net.sf.jxls.formula.CellRef;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class Block {
     }
 
     public boolean contains(int rowNum, int cellNum){
-        boolean flag = (startRowNum <= rowNum && rowNum <= endRowNum && ((startCellNum==-1 && endCellNum==-1) || (startCellNum <= cellNum && cellNum <= endCellNum)));
+        boolean flag = (startRowNum <= rowNum && rowNum <= endRowNum && ((startCellNum < 0 || endCellNum < 0) || (startCellNum <= cellNum && cellNum <= endCellNum)));
         if(flag && !affectedColumns.isEmpty()){
             return affectedColumns.contains( new Short( (short) cellNum) );
         }else{
@@ -111,8 +112,22 @@ public class Block {
         }
     }
 
+    public boolean contains(CellRef cellRef){
+        boolean flag =  (startRowNum <= cellRef.getRowNum() && cellRef.getRowNum() <= endRowNum &&
+                ((startCellNum<0 || endCellNum<0) || (startCellNum <= cellRef.getColNum() && cellRef.getColNum() <= endCellNum)));
+        if(flag && !affectedColumns.isEmpty()){
+            return affectedColumns.contains( new Short( cellRef.getColNum() ) );
+        }else{
+            return flag;
+        }
+    }
+
     public boolean isAbove(Point p){
         return (endRowNum < p.getRow());
+    }
+
+    public boolean isAbove(int rowNum){
+        return (endRowNum < rowNum);
     }
 
     public boolean isBelow(Point p){
