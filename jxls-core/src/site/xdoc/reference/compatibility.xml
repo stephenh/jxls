@@ -7,8 +7,10 @@
         <section id="compatibilityBetween0.8.9And0.9" name="Changes in version 0.9">
             <p>Changes: </p>
             <ul>
-                <li>Project build system was migrated to <a href="http://maven.apache.org">Maven 2</a></li>
                 <li>Root packages were changed to net.sf.jxls to correspond current project domain</li>
+                <li>Due to formula processing re-engineering to enhance overall performance old-style formulas notation like
+                    for example $[SUM(@employees.payment@)] is no longer supported</li>
+                <li>Project build system was migrated to <a href="http://maven.apache.org">Maven 2</a></li>
                 <li>Several issues fixed</li>
             </ul>
             <p>Note the package modification feature. You have to update jxls package names in the your existing code to use jxls-0.9.</p>

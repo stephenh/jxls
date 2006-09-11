@@ -12,8 +12,8 @@
 		<section id="installation" name="Installation">
 			<p> To use jXLS engine you have to put
                 <strong>
-					<code>jxls.jar</code>
-				</strong> in your classpath.
+					<code>jxls-core</code>
+				</strong> jar in your classpath.
             </p>
 			<p>The following
                 <a href="ext:jakarta">Jakarta</a> libraries are also required to be on your classpath.

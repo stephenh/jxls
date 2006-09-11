@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Leonid Vysochyn
  */
 public class AdjacentListsSample {
-    private static String templateFileName = "examples/templates/adjacentlists.xls";
+    private static String templateFileName = "/classes/templates/adjacentlists.xls";
     private static String destFileName = "build/adjacentlists_output.xls";
 
     public static void main(String[] args) throws IOException, ParsePropertyException {

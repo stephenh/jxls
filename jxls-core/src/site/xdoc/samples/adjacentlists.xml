@@ -34,7 +34,7 @@
             <p>Template file screenshot</p>
             <img src="../images/adjacentListTemplateXLS.gif" alt="Screenshot of Adjacent List XLS template file"/>
             <p>You can also download Excel version
-                <a href="../xls/adjacentlist.xls">adjacentlist.xls</a>
+                <a href="../xls/adjacentlists.xls">adjacentlists.xls</a>
             </p>
             <p>Output file looks like</p>
             <img src="../images/adjacentListOutputXLS.gif" alt="Screenshot of Adjacent List XLS output"/>
