@@ -16,6 +16,7 @@ public class DuplicateTransformation extends BlockTransformation {
 
     int rowNum, colNum;
     int duplicateNumber;
+    List cells = new ArrayList();
 
     public DuplicateTransformation(Block block, int duplicateNumber) {
         super(block);
@@ -60,7 +61,7 @@ public class DuplicateTransformation extends BlockTransformation {
 
     public List transformCell(String sheetName, CellRef cellRef) {
         String refSheetName = cellRef.getSheetName();
-        List cells = new ArrayList();
+        cells.clear();
         if( block.getSheet().getSheetName().equalsIgnoreCase( refSheetName ) || (refSheetName == null && block.getSheet().getSheetName().equalsIgnoreCase( sheetName ))){
             // sheet check passed
             if( block.contains( cellRef.getRowNum(), cellRef.getColNum() ) /*&& duplicateNumber >= 1*/){

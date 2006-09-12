@@ -225,14 +225,16 @@ public class Formula {
     List cellRefsToRemove = new ArrayList();
     List cellRefsToAdd = new ArrayList();
     public void updateReplacedRefCellsCollection(){
-        for (int i = 0; i < cellRefsToRemove.size(); i++) {
-            CellRef cellRef = (CellRef) cellRefsToRemove.get(i);
+        CellRef cellRef;
+        for (int i = 0, size = cellRefsToRemove.size(); i < size; i++) {
+            cellRef = (CellRef) cellRefsToRemove.get(i);
             cellRefs.remove( cellRef );
         }
         cellRefsToRemove.clear();
-        for (int i = 0; i < cellRefsToAdd.size(); i++) {
-            Object cellRef = cellRefsToAdd.get(i);
-            cellRefs.add( cellRef );
+        Object cellRef2;
+        for (int i = 0, size = cellRefsToAdd.size(); i < size; i++) {
+            cellRef2 = cellRefsToAdd.get(i);
+            cellRefs.add( cellRef2 );
         }
         cellRefsToAdd.clear();
     }
