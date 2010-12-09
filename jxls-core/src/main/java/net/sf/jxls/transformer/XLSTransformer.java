@@ -451,7 +451,7 @@ public class XLSTransformer {
             for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
                 Row hssfRow = sheet.getRow(i);
                 if (hssfRow != null) {
-                    for (int j = hssfRow.getFirstCellNum(); j <= hssfRow.getLastCellNum(); j++) {
+                    for (int j = hssfRow.getFirstCellNum(); j >= 0 && j <= hssfRow.getLastCellNum(); j++) {
                         Cell cell = hssfRow.getCell(j);
                         if (cell != null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
                             String value = cell.getRichStringCellValue().getString();
