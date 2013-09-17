@@ -3,7 +3,7 @@
   <groupId>net.sf.jxls</groupId>
   <artifactId>jxls</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-RC-2-SNAPSHOT</version>
+  <version>1.0-RC-2-bizo-1</version>
   <name>jXLS</name>
   <url>http://jxls.sf.net</url>
   <modules>
