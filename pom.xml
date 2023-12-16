@@ -109,7 +109,7 @@
         <repository>
             <id>sourceforge</id>
             <name>jXLS snapshot repository</name>
-            <url>http://jxls.sourceforge.net/repository/snapshots</url>
+            <url>https://jxls.sourceforge.net/repository/snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
